@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Sparkles, Lock, ArrowLeft, KeyRound, AlertCircle } from 'lucide-react';
+import { Lock, ArrowLeft, KeyRound, AlertCircle, Zap, Check } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -12,8 +12,41 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Check if already authenticated in local storage
+  useEffect(() => {
+    try {
+      const storedToken = localStorage.getItem('dealpulse_admin_token');
+      if (storedToken) {
+        // Quick verification
+        fetch('/api/admin/auth', {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.authenticated) {
+              router.push('/admin');
+            }
+          })
+          .catch(() => {});
+      }
+    } catch {
+      // localStorage may fail in restricted iframes
+    }
+  }, [router]);
+
+  const handleLoginSuccess = (token: string, user: any) => {
+    try {
+      localStorage.setItem('dealpulse_admin_token', token);
+      localStorage.setItem('dealpulse_admin_user', JSON.stringify(user));
+    } catch {
+      // fallback
+    }
+    // Also set document cookie for immediate availability
+    document.cookie = `admin_session=${token}; path=/; max-age=1209600; SameSite=None; Secure`;
+    router.push('/admin');
+  };
+
+  const executeLogin = async (loginEmail: string, loginPass: string) => {
     setIsLoading(true);
     setError(null);
 
@@ -21,25 +54,37 @@ export default function AdminLoginPage() {
       const res = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: loginEmail, password: loginPass }),
       });
 
       const data = await res.json();
-      if (!res.ok) {
+      if (!res.ok || !data.token) {
         throw new Error(data.error || 'Authentication failed');
       }
 
-      router.push('/admin');
+      handleLoginSuccess(data.token, data.user);
     } catch (err: any) {
-      setError(err?.message || 'Failed to sign in');
+      setError(err?.message || 'Failed to sign in. Please verify your credentials.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const fillDemoCredentials = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    executeLogin(email, password);
+  };
+
+  const handleInstantLogin = () => {
     setEmail('admin@dealpulse.io');
     setPassword('admin123');
+    executeLogin('admin@dealpulse.io', 'admin123');
+  };
+
+  const handleStephenLogin = () => {
+    setEmail('stephenmayowa112@gmail.com');
+    setPassword('admin123');
+    executeLogin('stephenmayowa112@gmail.com', 'admin123');
   };
 
   return (
@@ -64,20 +109,56 @@ export default function AdminLoginPage() {
             </div>
           </div>
 
-          {/* Quick-fill helper card */}
+          {/* 1-Click Instant Demo Login CTA */}
+          <div className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50/70 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-900">
+                  <Zap className="h-3.5 w-3.5 text-emerald-600 fill-emerald-600" />
+                  Instant One-Click Access
+                </span>
+                <p className="text-[11px] text-emerald-700 mt-0.5">
+                  Bypass manual input and log in directly as Administrator.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={handleInstantLogin}
+              className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-emerald-700 py-2.5 px-3 text-xs font-bold text-white shadow-xs hover:bg-emerald-800 transition-colors cursor-pointer disabled:opacity-50"
+            >
+              <KeyRound className="h-3.5 w-3.5" />
+              <span>1-Click Instant Admin Login</span>
+            </button>
+          </div>
+
+          {/* Quick Credential Presets */}
           <div className="mb-6 rounded-xl border border-neutral-200/80 bg-neutral-50/70 p-3.5 text-xs text-neutral-600">
-            <div className="flex items-center justify-between font-semibold text-neutral-900 mb-1">
-              <span>Demo Credentials</span>
+            <div className="flex items-center justify-between font-semibold text-neutral-900 mb-1.5">
+              <span>Quick-Fill Accounts</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
               <button
                 type="button"
-                onClick={fillDemoCredentials}
-                className="text-neutral-900 underline hover:text-neutral-700 cursor-pointer font-bold"
+                onClick={() => {
+                  setEmail('admin@dealpulse.io');
+                  setPassword('admin123');
+                }}
+                className="rounded-md border border-neutral-200 bg-white px-2 py-1 text-[11px] font-mono text-neutral-700 hover:border-neutral-400 hover:bg-neutral-100 transition-colors cursor-pointer"
               >
-                Auto-fill
+                admin@dealpulse.io
+              </button>
+              <button
+                type="button"
+                onClick={handleStephenLogin}
+                className="rounded-md border border-neutral-200 bg-white px-2 py-1 text-[11px] font-mono text-neutral-700 hover:border-neutral-400 hover:bg-neutral-100 transition-colors cursor-pointer"
+              >
+                stephenmayowa112@gmail.com
               </button>
             </div>
-            <p className="font-mono text-[11px] text-neutral-500">
-              admin@dealpulse.io / admin123
+            <p className="font-mono text-[10px] text-neutral-400 mt-2">
+              Password for all admin accounts: <span className="font-bold text-neutral-700">admin123</span>
             </p>
           </div>
 
@@ -122,13 +203,13 @@ export default function AdminLoginPage() {
               disabled={isLoading}
               className="w-full rounded-xl bg-neutral-900 py-3 text-sm font-semibold text-white shadow-xs hover:bg-neutral-800 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              {isLoading ? 'Signing In...' : 'Sign In to Dashboard'}
+              {isLoading ? 'Signing In...' : 'Sign In with Email & Password'}
             </button>
           </form>
         </div>
 
         <p className="mt-6 text-center text-xs text-neutral-400">
-          Curated admin access only. Visitor self-registration is disabled for v1.
+          Curated admin access only. All changes reflect in real-time on the public feed.
         </p>
       </div>
     </div>

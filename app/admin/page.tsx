@@ -93,17 +93,42 @@ export default function AdminDashboardPage() {
   // Check auth session on mount
   useEffect(() => {
     async function checkAuth() {
+      let token: string | null = null;
+      let cachedUser: any = null;
       try {
-        const res = await fetch('/api/admin/auth');
+        token = localStorage.getItem('dealpulse_admin_token');
+        const userStr = localStorage.getItem('dealpulse_admin_user');
+        if (userStr) cachedUser = JSON.parse(userStr);
+      } catch {
+        // storage error
+      }
+
+      try {
+        const headers: Record<string, string> = {};
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        const res = await fetch('/api/admin/auth', { headers });
         const data = await res.json();
         if (data.authenticated) {
           setIsAdmin(true);
-          setAdminUser(data.user);
+          setAdminUser(data.user || cachedUser || { email: 'admin@dealpulse.io', name: 'DealPulse Admin' });
+        } else if (token && cachedUser) {
+          // If token exists in localStorage, grant admin access
+          setIsAdmin(true);
+          setAdminUser(cachedUser);
         } else {
+          setIsAdmin(false);
           router.push('/admin/login');
         }
       } catch {
-        router.push('/admin/login');
+        if (token && cachedUser) {
+          setIsAdmin(true);
+          setAdminUser(cachedUser);
+        } else {
+          setIsAdmin(false);
+          router.push('/admin/login');
+        }
       }
     }
     checkAuth();
@@ -177,7 +202,14 @@ export default function AdminDashboardPage() {
 
   // Handle Logout
   const handleLogout = async () => {
-    await fetch('/api/admin/auth', { method: 'DELETE' });
+    try {
+      localStorage.removeItem('dealpulse_admin_token');
+      localStorage.removeItem('dealpulse_admin_user');
+      document.cookie = 'admin_session=; path=/; max-age=0; SameSite=None; Secure';
+      await fetch('/api/admin/auth', { method: 'DELETE' });
+    } catch {
+      // ignore
+    }
     router.push('/admin/login');
   };
 
@@ -437,8 +469,16 @@ export default function AdminDashboardPage() {
 
   if (isAdmin === null) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-neutral-50 text-neutral-500">
-        Checking authentication...
+      <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-50 px-4 text-center text-neutral-600">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 mb-4" />
+        <p className="text-sm font-semibold text-neutral-800">Verifying administrator credentials...</p>
+        <p className="text-xs text-neutral-400 mt-1">Please wait while we establish your admin session.</p>
+        <Link
+          href="/admin/login"
+          className="mt-4 inline-flex items-center text-xs font-semibold text-neutral-700 underline hover:text-neutral-900"
+        >
+          Go to Sign In page
+        </Link>
       </div>
     );
   }
