@@ -1,0 +1,6 @@
+{
+  "name": "DealPulse – Curated Deals Discovery",
+  "description": "A scrollable feed of curated deals, promo codes, and discount sales with outbound merchant links and cursor-based pagination.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
