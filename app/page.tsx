@@ -99,7 +99,7 @@ export default async function HomePage({ searchParams }: PageProps) {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#090D16] text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
+    <div className="flex min-h-screen flex-col bg-[#F4F6F9] text-slate-900 selection:bg-emerald-600 selection:text-white">
       {/* Structured SEO Schema */}
       <script
         type="application/ld+json"
@@ -109,31 +109,31 @@ export default async function HomePage({ searchParams }: PageProps) {
       <Header />
 
       <main className="flex-1">
-        {/* Modern Dark Hero Section */}
-        <section className="relative overflow-hidden border-b border-slate-800/80 bg-radial-[at_top_right] from-emerald-950/20 via-[#0B0F19] to-[#090D16] pt-12 pb-10">
+        {/* Modern Crisp Light Hero Section */}
+        <section className="relative overflow-hidden border-b border-slate-200/90 bg-gradient-to-b from-emerald-50/50 via-white to-[#F4F6F9] pt-10 pb-8">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               {/* Kicker with Unboxed Metadata */}
-              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-400 mb-3">
-                <span className="flex items-center gap-1.5 text-emerald-400">
-                  <Zap className="h-3.5 w-3.5 fill-emerald-400 text-emerald-400" />
+              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-600 mb-3">
+                <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
+                  <Zap className="h-3.5 w-3.5 fill-emerald-600 text-emerald-600" />
                   Live Verified Deals
                 </span>
-                <span aria-hidden="true" className="text-slate-600">·</span>
-                <span className="font-mono tabular-nums text-slate-300">
+                <span aria-hidden="true" className="text-slate-300">·</span>
+                <span className="font-mono tabular-nums text-slate-800 font-bold">
                   {stats.live} Active Offers
                 </span>
-                <span aria-hidden="true" className="text-slate-600">·</span>
-                <span className="text-slate-400">Zero In-App Checkout</span>
+                <span aria-hidden="true" className="text-slate-300">·</span>
+                <span className="text-slate-500">Zero In-App Checkout</span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white text-balance">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 text-balance">
                 High-signal deals from trusted stores, updated live.
               </h1>
 
               {/* Subheading */}
-              <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed text-balance">
+              <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed text-balance">
                 A streamlined, ad-free feed of genuine promos and sales. Click any listing to redeem directly on the retailer’s official checkout.
               </p>
             </div>
@@ -141,11 +141,11 @@ export default async function HomePage({ searchParams }: PageProps) {
         </section>
 
         {/* Feed & Discovery Section */}
-        <section className="py-10">
+        <section className="py-8">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Suspense
               fallback={
-                <div className="h-96 w-full animate-pulse rounded-2xl bg-slate-900/60 border border-slate-800" />
+                <div className="h-96 w-full animate-pulse rounded-2xl bg-white border border-slate-200" />
               }
             >
               <DealFeed

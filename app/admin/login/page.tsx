@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, ArrowLeft, KeyRound, AlertCircle, Zap, Check } from 'lucide-react';
+import { Lock, ArrowLeft, KeyRound, AlertCircle, Zap } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -84,38 +84,38 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#090D16] p-4 text-slate-100">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#F4F6F9] p-4 text-slate-900">
       <div className="w-full max-w-md">
         <div className="mb-6">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-emerald-400 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-emerald-700 transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Back to Public Feed</span>
           </Link>
         </div>
 
-        <div className="rounded-2xl border border-slate-800 bg-[#0F172A]/80 p-8 shadow-xl backdrop-blur-md">
+        <div className="rounded-2xl border border-slate-200/90 bg-white p-8 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-xs">
               <Lock className="h-5 w-5" />
             </span>
             <div>
-              <h1 className="text-xl font-bold text-white">Admin Authentication</h1>
-              <p className="text-xs text-slate-400">DealPulse curation & management portal</p>
+              <h1 className="text-xl font-bold text-slate-900">Admin Authentication</h1>
+              <p className="text-xs text-slate-500">DealPulse curation & management portal</p>
             </div>
           </div>
 
           {/* 1-Click Instant Demo Login CTA */}
-          <div className="mb-6 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
+          <div className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50/70 p-4">
             <div className="flex items-center justify-between">
               <div>
-                <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400">
-                  <Zap className="h-3.5 w-3.5 fill-emerald-400 text-emerald-400" />
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-800">
+                  <Zap className="h-3.5 w-3.5 fill-emerald-600 text-emerald-600" />
                   Instant One-Click Access
                 </span>
-                <p className="text-[11px] text-emerald-300/80 mt-0.5">
+                <p className="text-[11px] text-emerald-700/90 mt-0.5">
                   Bypass manual input and log in directly as Administrator.
                 </p>
               </div>
@@ -124,7 +124,7 @@ export default function AdminLoginPage() {
               type="button"
               disabled={isLoading}
               onClick={handleInstantLogin}
-              className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-emerald-500 py-2.5 px-3 text-xs font-bold text-slate-950 shadow-xs hover:bg-emerald-400 transition-colors cursor-pointer disabled:opacity-50"
+              className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-emerald-600 py-2.5 px-3 text-xs font-bold text-white shadow-xs hover:bg-emerald-500 transition-colors cursor-pointer disabled:opacity-50"
             >
               <KeyRound className="h-3.5 w-3.5" />
               <span>1-Click Instant Admin Login</span>
@@ -132,8 +132,8 @@ export default function AdminLoginPage() {
           </div>
 
           {/* Quick Credential Presets */}
-          <div className="mb-6 rounded-xl border border-slate-800 bg-slate-900/60 p-3.5 text-xs text-slate-400">
-            <div className="flex items-center justify-between font-semibold text-slate-300 mb-1.5">
+          <div className="mb-6 rounded-xl border border-slate-200 bg-slate-50/80 p-3.5 text-xs text-slate-600">
+            <div className="flex items-center justify-between font-semibold text-slate-700 mb-1.5">
               <span>Quick-Fill Accounts</span>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -143,33 +143,33 @@ export default function AdminLoginPage() {
                   setEmail('admin@dealpulse.io');
                   setPassword('admin123');
                 }}
-                className="rounded-md border border-slate-700 bg-slate-800 px-2 py-1 text-[11px] font-mono text-slate-300 hover:border-emerald-500 hover:text-white transition-colors cursor-pointer"
+                className="rounded-md border border-slate-200 bg-white px-2 py-1 text-[11px] font-mono text-slate-700 hover:border-emerald-500 hover:text-emerald-700 transition-colors cursor-pointer shadow-2xs"
               >
                 admin@dealpulse.io
               </button>
               <button
                 type="button"
                 onClick={handleStephenLogin}
-                className="rounded-md border border-slate-700 bg-slate-800 px-2 py-1 text-[11px] font-mono text-slate-300 hover:border-emerald-500 hover:text-white transition-colors cursor-pointer"
+                className="rounded-md border border-slate-200 bg-white px-2 py-1 text-[11px] font-mono text-slate-700 hover:border-emerald-500 hover:text-emerald-700 transition-colors cursor-pointer shadow-2xs"
               >
                 stephenmayowa112@gmail.com
               </button>
             </div>
-            <p className="font-mono text-[10px] text-slate-500 mt-2">
-              Default password: <code className="text-slate-400">admin123</code>
+            <p className="font-mono text-[10px] text-slate-400 mt-2">
+              Default password: <code className="text-slate-600">admin123</code>
             </p>
           </div>
 
           {error && (
-            <div className="mb-6 flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-300">
-              <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
+            <div className="mb-6 flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700">
+              <AlertCircle className="h-4 w-4 shrink-0 text-rose-600" />
               <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Admin Email Address
               </label>
               <input
@@ -177,13 +177,13 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:border-emerald-600 focus:outline-hidden focus:ring-1 focus:ring-emerald-600"
                 placeholder="admin@dealpulse.io"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Password
               </label>
               <input
@@ -191,7 +191,7 @@ export default function AdminLoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:border-emerald-600 focus:outline-hidden focus:ring-1 focus:ring-emerald-600"
                 placeholder="••••••••"
               />
             </div>
@@ -199,7 +199,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-800 border border-slate-700 py-2.5 px-4 text-xs font-bold text-white shadow-xs hover:bg-slate-700 hover:border-slate-600 transition-colors disabled:opacity-50 cursor-pointer"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-2.5 px-4 text-xs font-bold text-white shadow-xs hover:bg-slate-800 transition-colors disabled:opacity-50 cursor-pointer"
             >
               {isLoading ? (
                 <span>Authenticating...</span>

@@ -470,13 +470,13 @@ export default function AdminDashboardPage() {
 
   if (isAdmin === null) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#090D16] px-4 text-center text-slate-400">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-emerald-400 mb-4" />
-        <p className="text-sm font-semibold text-white">Verifying administrator credentials...</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#F4F6F9] px-4 text-center text-slate-600">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-emerald-600 mb-4" />
+        <p className="text-sm font-semibold text-slate-900">Verifying administrator credentials...</p>
         <p className="text-xs text-slate-500 mt-1">Please wait while we establish your admin session.</p>
         <Link
           href="/admin/login"
-          className="mt-4 inline-flex items-center text-xs font-semibold text-emerald-400 underline hover:text-emerald-300"
+          className="mt-4 inline-flex items-center text-xs font-semibold text-emerald-700 underline hover:text-emerald-800"
         >
           Go to Sign In page
         </Link>
