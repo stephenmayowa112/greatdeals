@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink, Tag, Clock, Share2, Check, ShoppingBag } from 'lucide-react';
 import { Deal } from '@/lib/types';
-import { formatNaira } from '@/lib/utils';
+import { formatNaira, formatUtcDate } from '@/lib/utils';
 
 interface DealCardProps {
   deal: Deal;
@@ -16,14 +16,7 @@ export default function DealCard({ deal }: DealCardProps) {
   const [imageError, setImageError] = useState(false);
 
   const postedDate = React.useMemo(() => {
-    try {
-      return new Date(deal.posted_at).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      });
-    } catch {
-      return 'Recent';
-    }
+    return formatUtcDate(deal.posted_at) || 'Recent';
   }, [deal.posted_at]);
 
   const handleShare = async (e: React.MouseEvent) => {
@@ -86,7 +79,7 @@ export default function DealCard({ deal }: DealCardProps) {
             <span aria-hidden="true">·</span>
             <span>{deal.category?.name || 'Deals'}</span>
             <span aria-hidden="true">·</span>
-            <span className="flex items-center gap-0.5">
+            <span suppressHydrationWarning className="flex items-center gap-0.5">
               <Clock className="h-3 w-3 inline text-neutral-400" />
               {postedDate}
             </span>
@@ -126,8 +119,8 @@ export default function DealCard({ deal }: DealCardProps) {
             )}
 
             {deal.expires_at && (
-              <span className="ml-auto text-[11px] font-medium text-neutral-500 font-mono">
-                Exp: {new Date(deal.expires_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              <span suppressHydrationWarning className="ml-auto text-[11px] font-medium text-neutral-500 font-mono">
+                Exp: {formatUtcDate(deal.expires_at)}
               </span>
             )}
           </div>

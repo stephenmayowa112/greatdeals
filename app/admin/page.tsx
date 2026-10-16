@@ -23,7 +23,7 @@ import {
   Eye,
 } from 'lucide-react';
 import { Deal, Category, DealStatus } from '@/lib/types';
-import { formatNaira } from '@/lib/utils';
+import { formatNaira, formatUtcDate } from '@/lib/utils';
 
 interface TestResult {
   test: string;
@@ -758,8 +758,8 @@ export default function AdminDashboardPage() {
                             </select>
                           </td>
 
-                          <td className="py-3 px-4 whitespace-nowrap text-[11px] text-neutral-500 font-mono tabular-nums">
-                            {deal.expires_at ? new Date(deal.expires_at).toLocaleDateString() : 'Never'}
+                          <td suppressHydrationWarning className="py-3 px-4 whitespace-nowrap text-[11px] text-neutral-500 font-mono tabular-nums">
+                            {deal.expires_at ? formatUtcDate(deal.expires_at) : 'Never'}
                           </td>
 
                           <td className="py-3 px-4 whitespace-nowrap text-right">

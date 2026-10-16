@@ -91,7 +91,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-neutral-200/60 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-400 gap-4">
-          <p>© {new Date().getFullYear()} DealPulse. All third-party trademarks belong to their respective owners.</p>
+          <p suppressHydrationWarning>© {new Date().getFullYear()} DealPulse. All third-party trademarks belong to their respective owners.</p>
           <div className="flex items-center gap-4">
             <span className="text-neutral-500">Built with Django REST + Next.js App Router</span>
           </div>

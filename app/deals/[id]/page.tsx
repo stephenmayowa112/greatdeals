@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import DealCard from '@/components/DealCard';
 import { db } from '@/lib/db';
-import { formatNaira } from '@/lib/utils';
+import { formatNaira, formatUtcDate, formatUtcDateWithYear } from '@/lib/utils';
 import {
   ExternalLink,
   ChevronRight,
@@ -197,12 +197,8 @@ export default async function DealDetailPage({ params }: DealPageProps) {
                   </div>
                   <div>
                     <span className="text-neutral-400 block">Posted Date</span>
-                    <span className="font-semibold text-neutral-800">
-                      {new Date(deal.posted_at).toLocaleDateString(undefined, {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
+                    <span suppressHydrationWarning className="font-semibold text-neutral-800">
+                      {formatUtcDateWithYear(deal.posted_at)}
                     </span>
                   </div>
                 </div>
@@ -268,12 +264,8 @@ export default async function DealDetailPage({ params }: DealPageProps) {
                   {deal.expires_at && (
                     <div className="mt-3 flex items-center gap-1.5 text-xs text-neutral-500 border-t border-neutral-200/60 pt-2">
                       <Clock className="h-3.5 w-3.5 text-neutral-400" />
-                      <span>
-                        Offer valid until{' '}
-                        {new Date(deal.expires_at).toLocaleDateString(undefined, {
-                          month: 'short',
-                          day: 'numeric',
-                        })}
+                      <span suppressHydrationWarning>
+                        Offer valid until {formatUtcDate(deal.expires_at)}
                       </span>
                     </div>
                   )}
