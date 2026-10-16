@@ -23,12 +23,17 @@ export interface Deal {
   status: DealStatus;
   posted_at: string; // ISO datetime string
   expires_at?: string | null; // ISO datetime string or null
+  coupon_code?: string | null;
+  free_shipping?: boolean;
+  score?: number;
 }
 
 export interface DealsQueryParams {
   cursor?: string | null;
   limit?: number;
   category?: string; // category slug or id
+  store?: string; // retailer filter
+  sort?: 'newest' | 'discount' | 'price_asc' | 'price_desc' | 'popular';
   q?: string; // search term
   status?: DealStatus | 'all';
   include_all?: boolean; // admin mode

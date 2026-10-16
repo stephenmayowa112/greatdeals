@@ -3,85 +3,77 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, ShieldCheck } from 'lucide-react';
+import { Zap, ShieldCheck } from 'lucide-react';
 
 export default function Header() {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith('/admin');
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-neutral-200 bg-white/95 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Zone 1: Single text wordmark */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-xl font-bold tracking-tight text-neutral-900 transition-colors hover:text-neutral-700"
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-900 text-white shadow-xs">
-              <Sparkles className="h-4 w-4" />
-            </span>
-            <span>DealPulse</span>
-          </Link>
-          <span className="hidden text-xs text-neutral-400 sm:inline" aria-hidden="true">
-            /
+    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#090D16]/90 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-8 px-4 sm:px-6 lg:px-8">
+        {/* Zone 1: Single element brand wordmark */}
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-white transition-opacity hover:opacity-90 whitespace-nowrap shrink-0"
+        >
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-slate-950 font-black shadow-xs shadow-emerald-500/20">
+            <Zap className="h-4 w-4 fill-slate-950 text-slate-950" />
           </span>
-          <span className="hidden text-xs font-medium text-neutral-500 sm:inline">
-            Curated Outbound Deals
-          </span>
-        </div>
+          <span className="text-white">DealPulse</span>
+        </Link>
 
-        {/* Zone 2: Navigation links */}
-        <nav className="hidden items-center gap-6 md:flex text-sm font-medium text-neutral-600">
+        {/* Zone 2: 4–5 concise single-line nav links */}
+        <nav className="hidden items-center gap-7 md:flex text-xs font-semibold text-slate-400">
           <Link
             href="/"
-            className={`transition-colors hover:text-neutral-900 ${
-              pathname === '/' ? 'text-neutral-900 font-semibold' : ''
+            className={`transition-colors hover:text-emerald-400 whitespace-nowrap shrink-0 ${
+              pathname === '/' ? 'text-white' : ''
             }`}
           >
             Live Feed
           </Link>
           <Link
             href="/?category=electronics"
-            className="transition-colors hover:text-neutral-900"
+            className="transition-colors hover:text-emerald-400 whitespace-nowrap shrink-0"
           >
             Electronics
           </Link>
           <Link
             href="/?category=audio"
-            className="transition-colors hover:text-neutral-900"
+            className="transition-colors hover:text-emerald-400 whitespace-nowrap shrink-0"
           >
             Audio
           </Link>
           <Link
             href="/?category=gaming"
-            className="transition-colors hover:text-neutral-900"
+            className="transition-colors hover:text-emerald-400 whitespace-nowrap shrink-0"
           >
             Gaming
           </Link>
           <Link
             href="/?category=home-kitchen"
-            className="transition-colors hover:text-neutral-900"
+            className="transition-colors hover:text-emerald-400 whitespace-nowrap shrink-0"
           >
             Home
           </Link>
         </nav>
 
-        {/* Zone 3: Primary action */}
-        <div className="flex items-center gap-3">
+        {/* Zone 3: 1 primary action */}
+        <div className="flex items-center gap-3 shrink-0">
           {isAdmin ? (
             <Link
               href="/"
-              className="inline-flex items-center justify-center rounded-lg border border-neutral-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-neutral-700 shadow-2xs transition-colors hover:bg-neutral-50 hover:text-neutral-900"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800/90 px-3.5 py-1.5 text-xs font-semibold text-slate-200 transition-colors hover:bg-slate-700 hover:text-white whitespace-nowrap"
             >
-              Back to Public Feed
+              Public Feed
             </Link>
           ) : (
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-neutral-50 px-3.5 py-1.5 text-xs font-semibold text-neutral-800 transition-colors hover:bg-neutral-100 hover:text-neutral-900"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700/80 bg-slate-800/80 px-3.5 py-1.5 text-xs font-semibold text-slate-200 transition-colors hover:border-emerald-500/50 hover:bg-slate-800 hover:text-white whitespace-nowrap shadow-xs"
             >
-              <ShieldCheck className="h-3.5 w-3.5 text-neutral-600" />
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
               <span>Admin Console</span>
             </Link>
           )}

@@ -21,6 +21,7 @@ import {
   Layers,
   Upload,
   Eye,
+  Zap,
 } from 'lucide-react';
 import { Deal, Category, DealStatus } from '@/lib/types';
 import { formatNaira, formatUtcDate } from '@/lib/utils';
@@ -469,13 +470,13 @@ export default function AdminDashboardPage() {
 
   if (isAdmin === null) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-50 px-4 text-center text-neutral-600">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 mb-4" />
-        <p className="text-sm font-semibold text-neutral-800">Verifying administrator credentials...</p>
-        <p className="text-xs text-neutral-400 mt-1">Please wait while we establish your admin session.</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#090D16] px-4 text-center text-slate-400">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-emerald-400 mb-4" />
+        <p className="text-sm font-semibold text-white">Verifying administrator credentials...</p>
+        <p className="text-xs text-slate-500 mt-1">Please wait while we establish your admin session.</p>
         <Link
           href="/admin/login"
-          className="mt-4 inline-flex items-center text-xs font-semibold text-neutral-700 underline hover:text-neutral-900"
+          className="mt-4 inline-flex items-center text-xs font-semibold text-emerald-400 underline hover:text-emerald-300"
         >
           Go to Sign In page
         </Link>
@@ -493,8 +494,8 @@ export default function AdminDashboardPage() {
               href="/"
               className="flex items-center gap-2 font-bold tracking-tight text-neutral-900"
             >
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-900 text-white">
-                <Sparkles className="h-3.5 w-3.5" />
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500 text-slate-950 font-black">
+                <Zap className="h-3.5 w-3.5 fill-slate-950 text-slate-950" />
               </span>
               <span>DealPulse Admin</span>
             </Link>

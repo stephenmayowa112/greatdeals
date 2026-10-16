@@ -20,6 +20,24 @@ function getStore(): GlobalStore {
       deals: JSON.parse(JSON.stringify(INITIAL_DEALS)),
       isInitialized: true,
     };
+  } else {
+    // Automatically sync updated seed attributes & image URLs
+    for (const d of globalForDeals.__dealsStore.deals) {
+      const fresh = INITIAL_DEALS.find((init) => init.id === d.id);
+      if (fresh) {
+        if (fresh.coupon_code && !d.coupon_code) d.coupon_code = fresh.coupon_code;
+        if (fresh.free_shipping !== undefined && d.free_shipping === undefined) d.free_shipping = fresh.free_shipping;
+        if (fresh.score !== undefined && d.score === undefined) d.score = fresh.score;
+        if (
+          d.image &&
+          (d.image.includes('1612287232230') ||
+           d.image.includes('1609592426806') ||
+           d.image.includes('1584990347449'))
+        ) {
+          d.image = fresh.image;
+        }
+      }
+    }
   }
   return globalForDeals.__dealsStore;
 }
@@ -149,6 +167,8 @@ export const db = {
       cursor = null,
       limit = 10,
       category,
+      store: filterStore,
+      sort = 'newest',
       q,
       status,
       include_all = false,
@@ -192,13 +212,20 @@ export const db = {
         return false;
       }
 
-      // Search keyword filter across title and short_description
+      // Store retailer filter
+      if (filterStore && filterStore !== 'all') {
+        const matchStore = deal.source_name.toLowerCase().includes(filterStore.toLowerCase());
+        if (!matchStore) return false;
+      }
+
+      // Search keyword filter across title, short_description, and source_name
       if (q && q.trim()) {
         const query = q.trim().toLowerCase();
         const inTitle = deal.title.toLowerCase().includes(query);
         const inDesc = deal.short_description.toLowerCase().includes(query);
         const inSource = deal.source_name.toLowerCase().includes(query);
-        if (!inTitle && !inDesc && !inSource) {
+        const inCode = deal.coupon_code ? deal.coupon_code.toLowerCase().includes(query) : false;
+        if (!inTitle && !inDesc && !inSource && !inCode) {
           return false;
         }
       }
@@ -212,8 +239,26 @@ export const db = {
       category: store.categories.find((c) => c.id === d.category_id),
     }));
 
-    // Sort newest first: posted_at DESC, id DESC
+    // Sorting
     enriched.sort((a, b) => {
+      if (sort === 'discount') {
+        const discA = a.percentage_off || 0;
+        const discB = b.percentage_off || 0;
+        if (discB !== discA) return discB - discA;
+      } else if (sort === 'price_asc') {
+        const priceA = a.discounted_price ?? a.original_price ?? 0;
+        const priceB = b.discounted_price ?? b.original_price ?? 0;
+        if (priceA !== priceB) return priceA - priceB;
+      } else if (sort === 'price_desc') {
+        const priceA = a.discounted_price ?? a.original_price ?? 0;
+        const priceB = b.discounted_price ?? b.original_price ?? 0;
+        if (priceB !== priceA) return priceB - priceA;
+      } else if (sort === 'popular') {
+        const scoreA = a.score || 0;
+        const scoreB = b.score || 0;
+        if (scoreB !== scoreA) return scoreB - scoreA;
+      }
+
       const timeA = new Date(a.posted_at).getTime();
       const timeB = new Date(b.posted_at).getTime();
       if (timeA !== timeB) {

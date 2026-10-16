@@ -10,6 +10,8 @@ export async function GET(request: NextRequest) {
     const cursor = searchParams.get('cursor') || undefined;
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!, 10) : 10;
     const category = searchParams.get('category') || undefined;
+    const store = searchParams.get('store') || undefined;
+    const sort = (searchParams.get('sort') as any) || undefined;
     const q = searchParams.get('q') || undefined;
     const status = (searchParams.get('status') as DealStatus | 'all') || 'live';
     const include_all = searchParams.get('include_all') === 'true';
@@ -18,6 +20,8 @@ export async function GET(request: NextRequest) {
       cursor,
       limit,
       category,
+      store,
+      sort,
       q,
       status,
       include_all,
